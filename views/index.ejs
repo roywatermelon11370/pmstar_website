@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="http://malsup.github.com/jquery.cycle2.js"></script>
+  </head>
+  <body>
+    <form action="./admin/news" method="POST">
+      <input type="text" name="title" placeholder="title">
+      <input type="text" name="content" placeholder="content">
+      <input type="text" name="pic" placeholder="pic">
+      <input type="submit" value="Submit">
+    <form>
+      <div class=center>
+        <span class="prevControl"><< Prev</a></span>
+        <span class="nextControl" style="margin-left:20px">Next >></a></span>
+      </div>
+      <!-- slideshow -->
+      <div class="cycle-slideshow"
+          data-cycle-pause-on-hover="#pauser"
+          data-cycle-fx=fadeout
+          data-cycle-prev=".prevControl"
+          data-cycle-next=".nextControl"
+          >
+          <img src="./images/11.jpg">
+          <img src="./images/12.jpg">
+      </div>
+  </body>
+</html>
