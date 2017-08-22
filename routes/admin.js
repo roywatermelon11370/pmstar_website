@@ -3,16 +3,31 @@ var router = express.Router();
 var announce = require('../models/announce');
 var jsSHA = require('jssha');
 var moment = require('moment');
+var multer = require('multer');
 
-router.post('/NewAnn', function(req, res, next) {
+var storage = multer.diskStorage({
+    destination: function(req, file, callback) {
+        callback(null, './uploads');
+    },
+    filename: function(req, file, callback) {
+        console.log(file);
+        var name = Date.now() + path.extname(file.originalname);
+        req.body.attachment = name;
+        callback(null, name);
+    }
+});
+var upload = multer({ storage: storage });
+
+router.post('/NewAnn', upload.single('attachment'), function(req, res, next) {
     var newAnn = new announce({
         title: req.body.title,
         date: req.body.date,
-        content: req.body.content
+        content: req.body.content,
+        attachment: req.body.attachment
     });
     newAnn.save(function(err) {
-        if (err) throw err;
-        res.redirect('/');
+        if (err) res.status(500).send('Error');
+        else res.send('Success');
     });
 });
 router.post('/login', function(req, res, next) {

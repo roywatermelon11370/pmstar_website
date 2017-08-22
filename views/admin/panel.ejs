@@ -13,6 +13,30 @@
     </head>
     <body>
         <div class="container" style="padding-top: 5vh;" >
+            <table class="table table-striped">
+                <thead class="thead-inverse">
+                    <tr>
+                    <th>標題</th>
+                    <th>日期</th>
+                    <th>內容</th>
+                    <th>附件</th>
+                    <th>修改</th>
+                    <th>刪除</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% announce.forEach(function(val, index, arr){ %>
+                    <tr>
+                        <td><%= val.title %></td>
+                        <td><%= moment(val.date).format('YYYY-MM-DD'); %></td>
+                        <td><%- val.content %></td>
+                        <td><%= val.attachment %></td>
+                        <td><%= val._id %></td>
+                        <td><%= val._id %></td>
+                    </tr>
+                    <% }); %>
+            </tbody>
+            </table>
             <form method="POST" action="/admin/NewAnn" id="NewAnn">
                 <div class="form-row">
                     <div class="form-group col-md-6">
