@@ -6,32 +6,74 @@
         <title>自己的網站自己管！</title>
         <script src="//code.jquery.com/jquery.min.js"></script>
         <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <!-- Include external CSS. -->
+        <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="//cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
         <div class="container" style="padding-top: 5vh;" >
-        <form class="form-inline">
-            <label class="sr-only" for="inlineFormInputName2">Name</label>
-            <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInputName2" placeholder="Jane Doe">
-
-            <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
-            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                <div class="input-group-addon">@</div>
-                <input type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Username">
-            </div>
-
-            <div class="form-check mb-2 mr-sm-2 mb-sm-0">
-                <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox"> Remember me
-                </label>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+            <form method="POST" action="/admin/NewAnn" id="NewAnn">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="NewAnnTitle" class="col-form-label">標題</label>
+                        <input type="text" class="form-control" id="NewAnnTitle" name="title" placeholder="[公告] 標題">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4" class="col-form-label">發布日期</label>
+                        <input class="form-control" type="date" name="date" id="NewAnnDate" value="<%= moment().format('YYYY-MM-DD'); %>" placeholder="<%= moment().format('YYYY-MM-DD'); %>" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="NewAnnContent" class="col-form-label">最新消息內容</label>
+                    <textarea class="form-control" name="content" id="NewAnnContent" placeholder="1234 Main St"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="NewAnnFile" class="col-form-label">其他附件</label>
+                    <input type="file" name="attachment" class="form-control-file" id="NewAnnFile" >
+                </div>
+                <button type="submit" class="btn btn-primary">發佈</button>
+            </form>
         </div>
+
+        <!-- Include external JS libs. -->
+        <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+        <script src="//cdn.ckeditor.com/4.7.2/standard/ckeditor.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.js"></script>
+        <script>
+            (function($){
+                $(function(){
+                    CKEDITOR.replace("NewAnnContent");
+                    $("#NewAnn").submit(function(e){
+                        e.preventDefault();
+                        var content = CKEDITOR.instances.NewAnnContent.getData();
+                        $("#NewAnnContent").val(content);
+                        var $form = $("#NewAnn");
+                        var formdata = false;
+                        if (window.FormData){
+                            formdata = new FormData($form[0]);
+                        }else{
+                            formdata = $form.serialize();
+                        }
+                        $.ajax({
+                            url:'/admin/NewAnn',
+                            type:'POST',
+                            data: formdata ? formdata : form.serialize(),
+                            cache: false,
+                            contentType: false,
+                            processData: false
+                        }).done(function(){
+                            location.reload();
+                        }).fail(function() {
+                            swal('送出失敗！','請聯絡網站製作者','error');
+                        });                       
+                    });
+                });
+            })(jQuery);
+            
+           
+        </script>
     </body>
 </html>
