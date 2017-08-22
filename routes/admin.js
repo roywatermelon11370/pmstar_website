@@ -1,32 +1,35 @@
-var express=require("express");
-var mongoose = require('mongoose');
-var router=express.Router();
-var schema=mongoose.Schema;
-
-mongoose.connect('mongodb://127.0.0.1:27017/data');
-var db = mongoose.connection;
-
-var notification=new schema({
-  'title': String,
-  'date': Date,
-  'content': String
-});
-var modelschema=mongoose.model('modelschema',notification);
+var express = require('express');
+var router = express.Router();
+var announce = require('../models/announce');
+var jsSHA = require('jssha');
 
 router.post('/news',function(req,res,next){
-    var obj=new modelschema({'title':req.body.title,'date':new Date(),'content':req.body.content});
-    obj.save(function(err){
-      if (err)
-        throw err;
-      modelschema.find({}, function(err, jizz){
-        console.log(jizz);
-      });
-      res.redirect('/');
+    var newAnn = new announce({
+        title: req.body.title,
+        date: new Date(),
+        content: req.body.content
     });
-})
-router.get('/',function(req,res,next){
-  res.render('admin',{news:[""]})
-})
-
+    newAnn.save(function(err){
+        if(err) throw err;
+        res.redirect('/');
+    });
+});
+router.post('/login', function(req, res, next) {
+    var hash = new jsSHA("SHA3-256", "TEXT");
+    hash.update(String(req.body.pwd)+"ILoveKotori<3");
+    if(req.body.pwd && hash.getHash("HEX") === 'be03103692a2499726bcea123167f476668730beaff55fd54021cf22af81e28d'){
+        req.session.isLogin = true;
+        req.session.loginFailed = 0;
+    }else{
+        if(!req.session.loginFailed) req.session.loginFailed = 1;
+        else req.session.loginFailed += 1;
+        req.flash('error', "通關密語錯誤");
+    }
+    res.redirect("/admin");
+});
+router.get('/', function(req, res, next) {
+    if(req.session.isLogin) res.render('admin/panel', { });
+    else res.render('admin/login', { errMsg: req.flash().error });
+});
 
 module.exports = router;

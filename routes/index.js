@@ -1,9 +1,15 @@
 var express = require('express');
 var router = express.Router();
+var announce = require('../models/announce');
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express'} );
+   announce.
+      find({}).
+      sort({'date': -1}).
+      limit(10).
+      exec(function(err, anns) {
+      res.render('index', {announce: anns});   
+   });
 });
 
 module.exports = router;
