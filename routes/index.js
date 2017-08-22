@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
       sort({'date': -1}).
       limit(10).
       exec(function(err, anns) {
-      res.render('index', {announce: anns});   
+      res.render('index', {announce: anns, title: "Express"});   
    });
 });
 

@@ -28,8 +28,17 @@ router.post('/login', function(req, res, next) {
     res.redirect("/admin");
 });
 router.get('/', function(req, res, next) {
-    if(req.session.isLogin) res.render('admin/panel', { });
-    else res.render('admin/login', { errMsg: req.flash().error });
+    if(req.session.isLogin){
+        announce.
+            find({}).
+            sort({'date': -1}).
+            exec(function(err, anns) {
+                console.log(anns);
+                res.render('admin/panel', {announce: anns});   
+            });
+    }else{
+        res.render('admin/login', { errMsg: req.flash().error });
+    }
 });
 
 module.exports = router;
