@@ -1,5 +1,5 @@
 {
-  "name": "jizz",
+  "name": "PMStar",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -13,6 +13,7 @@
     "ejs": "~2.5.6",
     "express": "~4.15.2",
     "express-session": "^1.15.5",
+    "helmet": "^3.8.1",
     "jssha": "^2.3.1",
     "moment": "^2.18.1",
     "mongoose": "^4.11.7",
@@ -23,7 +24,7 @@
     "serve-favicon": "~2.4.2"
   },
   "main": "app.js",
-  "author": "",
+  "author": "INFOR 30th",
   "license": "ISC",
   "description": ""
 }

@@ -3,6 +3,7 @@ var router = express.Router();
 var announce = require('../models/announce');
 var jsSHA = require('jssha');
 var moment = require('moment');
+var path = require('path');
 var multer = require('multer');
 
 var storage = multer.diskStorage({
@@ -10,7 +11,6 @@ var storage = multer.diskStorage({
         callback(null, './uploads');
     },
     filename: function(req, file, callback) {
-        console.log(file);
         var name = Date.now() + path.extname(file.originalname);
         req.body.attachment = name;
         callback(null, name);
@@ -18,14 +18,39 @@ var storage = multer.diskStorage({
 });
 var upload = multer({ storage: storage });
 
-router.post('/NewAnn', upload.single('attachment'), function(req, res, next) {
+router.post('/ann/new', upload.single('attachment'), function(req, res, next) {
+    console.log("WTF!");
+    console.log(req.body);
+    consoel.log("WTF");
     var newAnn = new announce({
         title: req.body.title,
         date: req.body.date,
         content: req.body.content,
         attachment: req.body.attachment
     });
+    console.log("OAO");
     newAnn.save(function(err) {
+        if (err) res.status(500).send('Error');
+        else res.send('Success');
+    });
+});
+router.post('/ann/remove', function(req, res, next) {
+    if (!req.body.id)
+        return res.status(500).send('No Legal Data');
+    announce.remove({ _id: req.body.id }, function(err) {
+        if (err) res.status(500).send('Error');
+        else res.send('Success');
+    });
+});
+router.post('/ann/update', function(req, res, next) {
+    if (!req.body.id)
+        return res.status(500).send('No Legal Data');
+    announce.update({ _id: req.body.id }, {
+        title: req.body.title,
+        date: req.body.date,
+        content: req.body.content,
+        attachment: req.body.attachment
+    }, function(err) {
         if (err) res.status(500).send('Error');
         else res.send('Success');
     });
@@ -49,7 +74,6 @@ router.get('/', function(req, res, next) {
         find({}).
         sort({ 'date': -1 }).
         exec(function(err, anns) {
-            console.log(anns);
             res.render('admin/panel', { announce: anns, moment: moment });
         });
     } else {

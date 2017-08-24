@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var helmet = require('helmet');
 var flash = require('req-flash');
 
 var index = require('./routes/index');
@@ -22,7 +23,7 @@ app.use(logger('dev'));
 app.use(session({
     secret: 'lKs5lfd@r6SdhQ7bTVQ+u>2CqPD0gN2lkX1A<du!thxxJG161m',
     cookie: {
-        maxAge: 60*1000*30
+        maxAge: 60 * 1000 * 30
     },
     resave: false,
     saveUninitialized: false
@@ -31,7 +32,8 @@ app.use(flash());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(helmet());
+app.use(express.static(path.join(__dirname, 'assets')));
 
 app.use('/', index);
 app.use('/admin', admin)

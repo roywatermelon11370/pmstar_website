@@ -1,0 +1,29 @@
+.modify i {
+    font-size: 1.33em;
+    text-decoration: none;
+    border-radius: 100%;
+    padding: 5px;
+    width: 1.3em;
+    text-align: center;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.modify .delete {
+    color: #ff5757;
+    background-color: transparent;
+}
+
+.modify .delete:hover {
+    background-color: #ff5757;
+    color: white;
+}
+
+.modify .edit {
+    color: #4100ff;
+}
+
+.modify .edit:hover {
+    background-color: #4100ff;
+    color: white;
+}

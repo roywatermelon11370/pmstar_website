@@ -10,9 +10,10 @@
         <!-- Include external CSS. -->
         <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <link href="//cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+        <link href="/css/adminPanel.css" rel="stylesheet" />
     </head>
     <body>
-        <div class="container" style="padding-top: 5vh;" >
+        <div class="container" style="padding-top: 5vh;padding-bottom: 5vh;" >
             <table class="table table-striped">
                 <thead class="thead-inverse">
                     <tr>
@@ -20,8 +21,7 @@
                     <th>日期</th>
                     <th>內容</th>
                     <th>附件</th>
-                    <th>修改</th>
-                    <th>刪除</th>
+                    <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,8 +31,10 @@
                         <td><%= moment(val.date).format('YYYY-MM-DD'); %></td>
                         <td><%- val.content %></td>
                         <td><%= val.attachment %></td>
-                        <td><%= val._id %></td>
-                        <td><%= val._id %></td>
+                        <td class="modify">
+                            <i class="fa fa-pencil edit" data-id="<%= val._id %>" aria-hidden="true"></i>
+                            <i class="fa fa-trash-o delete" data-id="<%= val._id %>" aria-hidden="true"></i>
+                        </td>
                     </tr>
                     <% }); %>
             </tbody>
@@ -66,38 +68,6 @@
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
         <script src="//cdn.ckeditor.com/4.7.2/standard/ckeditor.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.js"></script>
-        <script>
-            (function($){
-                $(function(){
-                    CKEDITOR.replace("NewAnnContent");
-                    $("#NewAnn").submit(function(e){
-                        e.preventDefault();
-                        var content = CKEDITOR.instances.NewAnnContent.getData();
-                        $("#NewAnnContent").val(content);
-                        var $form = $("#NewAnn");
-                        var formdata = false;
-                        if (window.FormData){
-                            formdata = new FormData($form[0]);
-                        }else{
-                            formdata = $form.serialize();
-                        }
-                        $.ajax({
-                            url:'/admin/NewAnn',
-                            type:'POST',
-                            data: formdata ? formdata : form.serialize(),
-                            cache: false,
-                            contentType: false,
-                            processData: false
-                        }).done(function(){
-                            location.reload();
-                        }).fail(function() {
-                            swal('送出失敗！','請聯絡網站製作者','error');
-                        });                       
-                    });
-                });
-            })(jQuery);
-            
-           
-        </script>
+        <script src="/javascripts/adminPanel.js"></script>
     </body>
 </html>
