@@ -33,7 +33,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(helmet());
-app.use(express.static(path.join(__dirname, 'assets')));
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
+app.use('/upload', express.static(path.join(__dirname, 'uploads')));
+
 
 app.use('/', index);
 app.use('/admin', admin)

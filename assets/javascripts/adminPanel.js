@@ -3,6 +3,15 @@
         CKEDITOR.replace("NewAnnContent");
         $("#NewAnn").submit(function(e) {
             e.preventDefault();
+            swal({
+                title: "發佈中",
+                text: "正在發佈，若是上傳檔案較大可能需花稍久之時間，請靜候片刻",
+                type: "info",
+                showConfirmButton: false,
+                allowEnterKey: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            });
             var content = CKEDITOR.instances.NewAnnContent.getData();
             $("#NewAnnContent").val(content);
             var $form = $("#NewAnn");
@@ -37,7 +46,15 @@
                 cancelButtonColor: '#868e96',
                 cancelButtonText: "我按錯了!",
             }).then(function() {
-                console.log({ id: $data });
+                swal({
+                    title: "刪除中",
+                    text: "正在刪除，請靜候片刻",
+                    type: "info",
+                    showConfirmButton: false,
+                    allowEnterKey: false,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                });
                 $.ajax({
                     url: '/admin/ann/remove',
                     type: 'POST',
@@ -52,6 +69,5 @@
                 });
             });
         });
-
     });
 })(jQuery);

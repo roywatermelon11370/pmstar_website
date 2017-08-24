@@ -27,3 +27,10 @@
     background-color: #4100ff;
     color: white;
 }
+
+table td {
+    max-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

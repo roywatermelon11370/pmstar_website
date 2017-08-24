@@ -8,7 +8,8 @@ var announce = new Schema({
     title: String,
     date: Date,
     content: String,
-    attachment: String
+    attachment: String,
+    attachmentName: String
 });
 var ann = MonConn.model('announce', announce);
 

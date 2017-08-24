@@ -10,33 +10,51 @@
         <!-- Include external CSS. -->
         <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <link href="//cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.css" rel="stylesheet" type="text/css" />
-        <link href="/css/adminPanel.css" rel="stylesheet" />
+        <link href="/assets/css/adminPanel.css" rel="stylesheet" />
     </head>
     <body>
         <div class="container" style="padding-top: 5vh;padding-bottom: 5vh;" >
             <table class="table table-striped">
                 <thead class="thead-inverse">
                     <tr>
-                    <th>標題</th>
-                    <th>日期</th>
-                    <th>內容</th>
-                    <th>附件</th>
-                    <th>操作</th>
+                    <th style="width: 20%;">標題</th>
+                    <th style="width: 7em;">日期</th>
+                    <th style="width: 30em;">內容</th>
+                    <th style="width: calc(80% - 28em - 5px)">附件</th>
+                    <th style="width: 6em;">操作</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <% announce.forEach(function(val, index, arr){ %>
-                    <tr>
-                        <td><%= val.title %></td>
-                        <td><%= moment(val.date).format('YYYY-MM-DD'); %></td>
-                        <td><%- val.content %></td>
-                        <td><%= val.attachment %></td>
-                        <td class="modify">
-                            <i class="fa fa-pencil edit" data-id="<%= val._id %>" aria-hidden="true"></i>
-                            <i class="fa fa-trash-o delete" data-id="<%= val._id %>" aria-hidden="true"></i>
-                        </td>
-                    </tr>
-                    <% }); %>
+                    <% if(announce.length === 0){ %>
+                        <tr>
+                            <td>(目前暫無資料)</td>
+                            <td>(目前暫無資料)</td>
+                            <td>(目前暫無資料)</td>
+                            <td>(目前暫無資料)</td>
+                            <td>(目前暫無資料)</td>
+                        </tr>
+                    <% }else{ %>
+                        <% announce.forEach(function(val, index, arr){ %>
+                        <tr>
+                            <td style="width: 20%;">
+                                <%= val.title %>
+                            </td>
+                            <td style="width: 7em;">
+                                <%= moment(val.date).format('YYYY-MM-DD'); %>
+                            </td>
+                            <td style="width: 30em">
+                                <%= val.content %>
+                            </td>
+                            <td style="width: calc(80% - 28em - 5px);">
+                                <a href="/upload/<%= val.attachment %>" download="<%= val.attachmentName %>"><%= val.attachmentName %></a>
+                            </td>
+                            <td style="width: 6em;" class="modify">
+                                <i class="fa fa-pencil edit" data-id="<%= val._id %>" aria-hidden="true"></i>
+                                <i class="fa fa-trash-o delete" data-id="<%= val._id %>" aria-hidden="true"></i>
+                            </td>
+                        </tr>
+                        <% }); %>
+                    <% } %>
             </tbody>
             </table>
             <form method="POST" action="/admin/NewAnn" id="NewAnn">
@@ -52,7 +70,7 @@
                 </div>
                 <div class="form-group">
                     <label for="NewAnnContent" class="col-form-label">最新消息內容</label>
-                    <textarea class="form-control" name="content" id="NewAnnContent" placeholder="1234 Main St"></textarea>
+                    <textarea class="form-control" name="content" id="NewAnnContent" placeholder="Something Here"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="NewAnnFile" class="col-form-label">其他附件</label>
@@ -68,6 +86,6 @@
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
         <script src="//cdn.ckeditor.com/4.7.2/standard/ckeditor.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.js"></script>
-        <script src="/javascripts/adminPanel.js"></script>
+        <script src="/assets/javascripts/adminPanel.js"></script>
     </body>
 </html>

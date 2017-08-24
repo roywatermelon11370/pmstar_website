@@ -12,23 +12,21 @@ var storage = multer.diskStorage({
     },
     filename: function(req, file, callback) {
         var name = Date.now() + path.extname(file.originalname);
-        req.body.attachment = name;
+        req.body.link = name;
+        req.body.attachment = file.originalname;
         callback(null, name);
     }
 });
 var upload = multer({ storage: storage });
 
 router.post('/ann/new', upload.single('attachment'), function(req, res, next) {
-    console.log("WTF!");
-    console.log(req.body);
-    consoel.log("WTF");
     var newAnn = new announce({
         title: req.body.title,
         date: req.body.date,
         content: req.body.content,
-        attachment: req.body.attachment
+        attachment: req.body.link,
+        attachmentName: req.body.attachment
     });
-    console.log("OAO");
     newAnn.save(function(err) {
         if (err) res.status(500).send('Error');
         else res.send('Success');
@@ -49,7 +47,8 @@ router.post('/ann/update', function(req, res, next) {
         title: req.body.title,
         date: req.body.date,
         content: req.body.content,
-        attachment: req.body.attachment
+        attachment: req.body.link,
+        attachmentName: req.body.attachment
     }, function(err) {
         if (err) res.status(500).send('Error');
         else res.send('Success');
@@ -69,6 +68,9 @@ router.post('/login', function(req, res, next) {
     res.redirect("/admin");
 });
 router.get('/', function(req, res, next) {
+    // announce.remove({}, function(err) {
+    //     if (err) throw err;
+    // });
     if (req.session.isLogin) {
         announce.
         find({}).
