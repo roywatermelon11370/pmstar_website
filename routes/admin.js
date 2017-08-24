@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
+var reCAPTCHA = require('../models/reCAPTCHA');
 var announce = require('../models/announce');
+var banner = require('../models/banner');
 var jsSHA = require('jssha');
 var moment = require('moment');
 var path = require('path');
 var multer = require('multer');
-var reCAPTCHA = require('../models/reCAPTCHA');
 
 var storage = multer.diskStorage({
     destination: function(req, file, callback) {
@@ -45,7 +46,6 @@ router.post('/ann/remove', function(req, res, next) {
 });
 router.post('/ann/update', upload.single('attachment'), function(req, res, next) {
     if (!req.session.isLogin) return res.redirect("/admin");
-    console.log(req.body);
     if (!req.body.id) return res.status(500).send('No Legal Data');
     if (req.body.removeFile) {
         announce.update({ _id: req.body.id }, {
