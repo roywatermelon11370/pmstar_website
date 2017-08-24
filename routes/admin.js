@@ -5,6 +5,7 @@ var jsSHA = require('jssha');
 var moment = require('moment');
 var path = require('path');
 var multer = require('multer');
+var reCAPTCHA = require('../models/reCAPTCHA');
 
 var storage = multer.diskStorage({
     destination: function(req, file, callback) {
@@ -69,7 +70,7 @@ router.post('/ann/update', upload.single('attachment'), function(req, res, next)
     }
 
 });
-router.post('/login', function(req, res, next) {
+router.post('/login', reCAPTCHA, function(req, res, next) {
     if (req.session.loginFailed > 15) {
         return res.redirect("/");
     }
@@ -87,7 +88,9 @@ router.post('/login', function(req, res, next) {
 });
 
 router.get('/', function(req, res, next) {
-    if (req.session.isLogin) {
+    if (req.session.loginFailed > 15) {
+        res.redirect("/");
+    } else if (req.session.isLogin) {
         res.render('admin/panel', { moment: moment });
     } else {
         res.render('admin/login', { errMsg: req.flash().error });
