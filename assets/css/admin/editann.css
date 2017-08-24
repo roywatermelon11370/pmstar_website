@@ -34,3 +34,19 @@ table td {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.col-form-label {
+    font-weight: bold;
+}
+
+#AnnFileUpload {
+    cursor: pointer;
+    color: #30c700;
+    font-size: 1.2em;
+}
+
+#removeFile {
+    cursor: pointer;
+    color: red;
+    font-size: 1.3em;
+}

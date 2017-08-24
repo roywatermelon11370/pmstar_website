@@ -20,6 +20,7 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 router.post('/ann/new', upload.single('attachment'), function(req, res, next) {
+    if (!req.session.isLogin) return res.redirect("/admin");
     var newAnn = new announce({
         title: req.body.title,
         date: req.body.date,
@@ -33,6 +34,7 @@ router.post('/ann/new', upload.single('attachment'), function(req, res, next) {
     });
 });
 router.post('/ann/remove', function(req, res, next) {
+    if (!req.session.isLogin) return res.redirect("/admin");
     if (!req.body.id)
         return res.status(500).send('No Legal Data');
     announce.remove({ _id: req.body.id }, function(err) {
@@ -40,23 +42,36 @@ router.post('/ann/remove', function(req, res, next) {
         else res.send('Success');
     });
 });
-router.post('/ann/update', function(req, res, next) {
-    if (!req.body.id)
-        return res.status(500).send('No Legal Data');
-    announce.update({ _id: req.body.id }, {
-        title: req.body.title,
-        date: req.body.date,
-        content: req.body.content,
-        attachment: req.body.link,
-        attachmentName: req.body.attachment
-    }, function(err) {
-        if (err) res.status(500).send('Error');
-        else res.send('Success');
-    });
+router.post('/ann/update', upload.single('attachment'), function(req, res, next) {
+    if (!req.session.isLogin) return res.redirect("/admin");
+    console.log(req.body);
+    if (!req.body.id) return res.status(500).send('No Legal Data');
+    if (req.body.removeFile) {
+        announce.update({ _id: req.body.id }, {
+            title: req.body.title,
+            date: req.body.date,
+            content: req.body.content,
+            attachment: req.body.link,
+            attachmentName: req.body.attachment
+        }, function(err) {
+            if (err) res.status(500).send('Error');
+            else res.send('Success');
+        });
+    } else {
+        announce.update({ _id: req.body.id }, {
+            title: req.body.title,
+            date: req.body.date,
+            content: req.body.content
+        }, function(err) {
+            if (err) res.status(500).send('Error');
+            else res.send('Success');
+        });
+    }
+
 });
 router.post('/login', function(req, res, next) {
     if (req.session.loginFailed > 15) {
-        res.redirect("/");
+        return res.redirect("/");
     }
     var hash = new jsSHA("SHA3-256", "TEXT");
     hash.update(String(req.body.pwd) + "ILoveKotori<3");
@@ -79,23 +94,18 @@ router.get('/', function(req, res, next) {
     }
 });
 router.get('/edit', function(req, res, next) {
-    if (req.session.isLogin) {
-        announce.
-        find({}).
-        sort({ 'date': -1 }).
-        exec(function(err, anns) {
-            res.render('admin/editann', { announce: anns, moment: moment });
-        });
-    } else {
-        res.redirect("/admin");
-    }
+    if (!req.session.isLogin) return res.redirect("/admin");
+    announce.
+    find({}).
+    sort({ 'date': -1 }).
+    exec(function(err, anns) {
+        res.render('admin/editann', { announce: anns, moment: moment });
+    });
 });
 router.get('/new', function(req, res, next) {
-    if (req.session.isLogin) {
-        res.render('admin/newann', { moment: moment });
-    } else {
-        res.redirect("/admin");
-    }
+    if (!req.session.isLogin) return res.redirect("/admin");
+    res.render('admin/newann', { moment: moment });
+
 });
 router.get('/logout', function(req, res, next) {
     req.session.isLogin = false;
