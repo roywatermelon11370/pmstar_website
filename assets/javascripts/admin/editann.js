@@ -46,12 +46,12 @@
             $("input[name=id]").val($root.find(".modify i").first().data("id"));
             console.log($("input[name=id]").val());
             if ($root.find(".annAttachment").text().trim() === '') {
-                $("input[name=removeFile]").val(true);
+                $("input[name=removeFile]").val("true");
                 $("#oriFileName").hide();
                 $("#removeFile").hide();
                 $("#EditAnnFile").show();
             } else {
-                $("input[name=removeFile]").val(false);
+                $("input[name=removeFile]").val("false");
                 $("#oriFileName").text($root.find(".annAttachment").text().trim());
                 $("#oriFileName").attr("href", $root.find(".annAttachment").children().first().attr("href"));
                 $("#oriFileName").attr("download", $root.find(".annAttachment").text().trim());

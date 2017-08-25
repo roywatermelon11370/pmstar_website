@@ -47,7 +47,8 @@ router.post('/ann/remove', function(req, res, next) {
 router.post('/ann/update', upload.single('attachment'), function(req, res, next) {
     if (!req.session.isLogin) return res.redirect("/admin");
     if (!req.body.id) return res.status(500).send('No Legal Data');
-    if (req.body.removeFile) {
+    console.log(req.body);
+    if (req.body.removeFile === 'true') {
         announce.update({ _id: req.body.id }, {
             title: req.body.title,
             date: req.body.date,
