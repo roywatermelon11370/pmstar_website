@@ -6,6 +6,7 @@ var banner = require('../models/banner');
 var jsSHA = require('jssha');
 var moment = require('moment');
 var path = require('path');
+var fs = require('fs');
 var multer = require('multer');
 
 var storage = multer.diskStorage({
@@ -39,6 +40,11 @@ router.post('/ann/remove', function(req, res, next) {
     if (!req.session.isLogin) return res.redirect("/admin");
     if (!req.body.id)
         return res.status(500).send('No Legal Data');
+    announce.findOne({_id: req.body.id }, function(err, anns) {
+        if(anns.attachment && anns.attachment != ''){
+            fs.unlinkSync(path.join('./uploads', anns.attachment));
+        }
+    });
     announce.remove({ _id: req.body.id }, function(err) {
         if (err) res.status(500).send('Error');
         else res.send('Success');
@@ -47,8 +53,12 @@ router.post('/ann/remove', function(req, res, next) {
 router.post('/ann/update', upload.single('attachment'), function(req, res, next) {
     if (!req.session.isLogin) return res.redirect("/admin");
     if (!req.body.id) return res.status(500).send('No Legal Data');
-    console.log(req.body);
     if (req.body.removeFile === 'true') {
+        announce.findOne({_id: req.body.id}, function(err, anns){
+            if(anns.attachment){
+                fs.unlinkSync(path.join('./uploads', anns.attachment));
+            }
+        });
         announce.update({ _id: req.body.id }, {
             title: req.body.title,
             date: req.body.date,
@@ -100,11 +110,11 @@ router.get('/', function(req, res, next) {
 router.get('/edit', function(req, res, next) {
     if (!req.session.isLogin) return res.redirect("/admin");
     announce.
-    find({}).
-    sort({ 'date': -1 }).
-    exec(function(err, anns) {
-        res.render('admin/editann', { announce: anns, moment: moment });
-    });
+        find({}).
+        sort({ 'date': -1 }).
+        exec(function(err, anns) {
+            res.render('admin/editann', { announce: anns, moment: moment });
+        });
 });
 router.get('/new', function(req, res, next) {
     if (!req.session.isLogin) return res.redirect("/admin");
