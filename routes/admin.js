@@ -3,9 +3,11 @@ var router = express.Router();
 var reCAPTCHA = require('../models/reCAPTCHA');
 var announce = require('../models/announce');
 var banner = require('../models/banner');
+var imagesU = require('../models/images');
 var jsSHA = require('jssha');
 var moment = require('moment');
 var path = require('path');
+var url = require('url');
 var fs = require('fs');
 var multer = require('multer');
 
@@ -22,6 +24,21 @@ var storage = multer.diskStorage({
 });
 var upload = multer({ storage: storage });
 
+router.post('/ann/upload', upload.single('upload'), function(req, res, next) {
+    if (!req.session.isLogin) {
+        return res.json({
+            "uploaded": 0,
+            "error": {
+                "message": "請先登入，請勿繞近來亂搞！"
+            }
+        });
+    }
+    res.json({
+        "uploaded": 1,
+        "fileName": req.body.attachment,
+        "url": url.resolve('/upload/', req.body.link)
+    });
+});
 router.post('/ann/new', upload.single('attachment'), function(req, res, next) {
     if (!req.session.isLogin) return res.redirect("/admin");
     var newAnn = new announce({
@@ -40,8 +57,8 @@ router.post('/ann/remove', function(req, res, next) {
     if (!req.session.isLogin) return res.redirect("/admin");
     if (!req.body.id)
         return res.status(500).send('No Legal Data');
-    announce.findOne({_id: req.body.id }, function(err, anns) {
-        if(anns.attachment && anns.attachment != ''){
+    announce.findOne({ _id: req.body.id }, function(err, anns) {
+        if (anns.attachment && anns.attachment != '') {
             fs.unlinkSync(path.join('./uploads', anns.attachment));
         }
     });
@@ -54,8 +71,8 @@ router.post('/ann/update', upload.single('attachment'), function(req, res, next)
     if (!req.session.isLogin) return res.redirect("/admin");
     if (!req.body.id) return res.status(500).send('No Legal Data');
     if (req.body.removeFile === 'true') {
-        announce.findOne({_id: req.body.id}, function(err, anns){
-            if(anns.attachment){
+        announce.findOne({ _id: req.body.id }, function(err, anns) {
+            if (anns.attachment) {
                 fs.unlinkSync(path.join('./uploads', anns.attachment));
             }
         });
@@ -110,11 +127,11 @@ router.get('/', function(req, res, next) {
 router.get('/edit', function(req, res, next) {
     if (!req.session.isLogin) return res.redirect("/admin");
     announce.
-        find({}).
-        sort({ 'date': -1 }).
-        exec(function(err, anns) {
-            res.render('admin/editann', { announce: anns, moment: moment });
-        });
+    find({}).
+    sort({ 'date': -1 }).
+    exec(function(err, anns) {
+        res.render('admin/editann', { announce: anns, moment: moment });
+    });
 });
 router.get('/new', function(req, res, next) {
     if (!req.session.isLogin) return res.redirect("/admin");
