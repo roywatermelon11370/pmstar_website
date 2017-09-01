@@ -51,17 +51,18 @@
                     <div id="content">
 
                         <!-- Content -->
-
+                        <% announce.forEach(function(ann){ %>
                         <article>
                             <header>
-                                <h2>(標題)</h2>
-                                <p>(副標題)</p>
+                                <h2><%= ann.title %></h2>
+                                <p><%= ann.date %></p>
                             </header>
 
+                            
+                            <%- ann.content %>
                             <span class="image featured"><img src="images/banner.jpg" alt="" /></span>
-                            <p>內容</p>
                         </article>
-
+                        <$ }); %>
                     </div>
                 </div>
             </section>

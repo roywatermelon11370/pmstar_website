@@ -15,13 +15,23 @@ router.get('/about', function(req, res, next) {
     res.render('about');
 });
 router.get('/detail', function(req, res, next) {
-    res.render('detail');
+    announce.
+    find({}).
+    sort({ 'date': -1 }).
+    exec(function(err, anns) {
+        res.render('detail', { announce: anns });
+    });
 });
 router.get('/qna', function(req, res, next) {
     res.render('qna');
 });
 router.get('/news', function(req, res, next) {
-    res.render('news');
+    announce.
+    find({}).
+    sort({ 'date': -1 }).
+    exec(function(err, anns) {
+        res.render('news', { announce: anns });
+    });
 });
 router.get('/rule', function(req, res, next) {
     res.render('rule');
