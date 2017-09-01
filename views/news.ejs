@@ -46,49 +46,20 @@
 
             </div>
 
-
             <!-- Main -->
             <section class="wrapper style1">
                 <div class="container">
                     <div class="row">
-                        <section class="6u 12u(narrower)">
-                            <div class="box post" onclick="location.href='1.html'">
-                                <a href="#" class="image left"><img src="images/pic01.jpg" alt="" /></a>
-                                <div class="inner">
-                                    <h3>(標題)</h3>
-                                    <p>(部分內容)</p>
-                                </div>
-                            </div>
-                        </section>
+                        <% announce.forEach(function(ann){ %>
                         <section class="6u 12u(narrower)">
                             <div class="box post">
-                                <a href="#" class="image left"><img src="images/pic02.jpg" alt="" /></a>
                                 <div class="inner">
-                                    <h3>(標題)</h3>
-                                    <p>(部分內容)</p>
+                                    <h3><a href="/detail?id=<%= ann._id %>"><%= ann.title %></a></h3>
+                                    <p><%= moment(ann.date).format('YYYY-MM-DD'); %></p>
                                 </div>
                             </div>
                         </section>
-                    </div>
-                    <div class="row">
-                        <section class="6u 12u(narrower)">
-                            <div class="box post">
-                                <a href="#" class="image left"><img src="images/pic03.jpg" alt="" /></a>
-                                <div class="inner">
-                                    <h3>(標題)</h3>
-                                    <p>(部分內容)</p>
-                                </div>
-                            </div>
-                        </section>
-                        <section class="6u 12u(narrower)">
-                            <div class="box post">
-                                <a href="#" class="image left"><img src="images/pic04.jpg" alt="" /></a>
-                                <div class="inner">
-                                    <h3>(標題)</h3>
-                                    <p>(部分內容)</p>
-                                </div>
-                            </div>
-                        </section>
+                        <% }); %>
                     </div>
                 </div>
             </section>

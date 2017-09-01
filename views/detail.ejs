@@ -6,7 +6,7 @@
 -->
 <html>
     <head>
-        <title>(標題)</title>
+        <title><%= announce.title %></title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
@@ -51,18 +51,16 @@
                     <div id="content">
 
                         <!-- Content -->
-                        <% announce.forEach(function(ann){ %>
                         <article>
                             <header>
-                                <h2><%= ann.title %></h2>
-                                <p><%= ann.date %></p>
+                                <h2><%= announce.title %></h2>
+                                <p><%= moment(announce.date).format('YYYY-MM-DD'); %></p>
                             </header>
-
-                            
-                            <%- ann.content %>
-                            <span class="image featured"><img src="images/banner.jpg" alt="" /></span>
+                            <%- announce.content %>
+                            <% if(announce.attachment){ %>
+                            附件檔案：<a href="/upload/<%= announce.attachment %>"><%= announce.attachmentName %></a>
+                            <% } %>
                         </article>
-                        <$ }); %>
                     </div>
                 </div>
             </section>
