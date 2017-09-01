@@ -17,5 +17,17 @@ router.get('/about', function(req, res, next) {
 router.get('/detail', function(req, res, next) {
     res.render('detail');
 });
+router.get('/qna', function(req, res, next) {
+    res.render('qna');
+});
+router.get('/news', function(req, res, next) {
+    res.render('news');
+});
+router.get('/rule', function(req, res, next) {
+    res.render('rule');
+});
+router.get('/sponsor', function(req, res, next) {
+    res.render('sponsor');
+});
 
 module.exports = router;
