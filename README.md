@@ -8,7 +8,13 @@
 ## 使用這份程式碼
 
 ```git clone https://github.com/dmr0103unix/pmstar_website.git ```
+
 ```npm install```
+
 ```mkdir upload```
+
 ```vim model/reCAPTCHA.js ```
+
+(你需要先去reCAPTCHA註冊)
+
 ```npm start``
