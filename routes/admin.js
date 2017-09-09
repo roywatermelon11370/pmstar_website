@@ -29,7 +29,7 @@ router.post('/ann/upload', upload.single('upload'), function(req, res, next) {
         return res.json({
             "uploaded": 0,
             "error": {
-                "message": "請先登入，請勿繞近來亂搞！"
+                "message": "請先登入或重新整理，請勿繞進來亂搞！"
             }
         });
     }

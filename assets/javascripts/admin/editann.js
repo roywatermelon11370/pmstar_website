@@ -40,6 +40,7 @@
         $(".edit").click(function(e) {
             e.preventDefault();
             var $root = $(this).parent().parent();
+            console.log("%c"+$root.find(".annContent").text().trim(), 'background: #222; color:#bada55;');
             CKEDITOR.instances.EditAnnContent.setData($root.find(".annContent").text().trim());
             $("#EditAnnTitle").val($root.find(".annTitle").text().trim());
             $("#EditAnnDate").val($root.find(".annDate").text().trim());
