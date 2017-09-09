@@ -28,7 +28,7 @@
     color: white;
 }
 
-table td {
+#anns td {
     max-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
