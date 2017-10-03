@@ -48,17 +48,27 @@
             <!-- Main -->
             <section class="wrapper style1">
                 <div class="container">
-                    <div class="row">
-                        <% announce.forEach(function(ann){ %>
-                        <section class="6u 12u(narrower)">
-                            <div class="box post">
-                                <div class="inner">
-                                    <h3><a href="/detail?id=<%= ann._id %>"><%= ann.title %></a></h3>
-                                    <p><%= moment(ann.date).format('YYYY-MM-DD'); %></p>
+                    <% var cnt = 0; %>
+                    <% announce.forEach(function(ann){ %>
+                        <% if(cnt % 2 == 0) { %>
+                        <div class="row"> 
+                        <% } %>
+                            <section class="6u 12u(narrower)">
+                                <div class="box post">
+                                    <div class="inner">
+                                        <h3><a href="/detail?id=<%= ann._id %>"><%= ann.title %></a></h3>
+                                        <p><%= moment(ann.date).format('YYYY-MM-DD'); %></p>
+                                    </div>
                                 </div>
-                            </div>
-                        </section>
-                        <% }); %>
+                            </section>
+                        <% if(cnt % 2 == 1) { %>
+                        </div> 
+                        <% } %>
+                        <% cnt += 1 %>
+                    <% }); %>
+                    <% if(cnt % 2 == 0) { %>
+                        </div> 
+                     <% } %>
                     </div>
                 </div>
             </section>
