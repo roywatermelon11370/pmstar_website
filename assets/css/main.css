@@ -3398,3 +3398,8 @@ table {
 .table-responsive.table-bordered {
   border: 0;
 }
+.sponsor{
+	width: 80%;
+	position: relative;
+	left: 10%
+}

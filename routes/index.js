@@ -17,7 +17,7 @@ router.get('/about', function(req, res, next) {
     res.render('about');
 });
 router.get('/detail', function(req, res, next) {
-    var queryData = url.parse(req.url, true).query; 
+    var queryData = url.parse(req.url, true).query;
     console.log(queryData);
     if(!queryData.id) return res.redirect("/news");
     announce.
@@ -46,5 +46,7 @@ router.get('/rule', function(req, res, next) {
 router.get('/sponsor', function(req, res, next) {
     res.render('sponsor');
 });
-
+router.get('/coOrg', function(req, res, next) {
+    res.render('coOrg');
+});
 module.exports = router;
