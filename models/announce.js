@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
-var MonConn = mongoose.createConnection('mongodb://localhost/PMStar');
+mongoose.connect('mongodb://localhost/PMStar-2018');
 var Schema = mongoose.Schema;
 
 var announce = new Schema({
@@ -11,6 +11,6 @@ var announce = new Schema({
     attachment: String,
     attachmentName: String
 });
-var ann = MonConn.model('announce', announce);
+var ann = mongoose.model('announce', announce);
 
 module.exports = ann;

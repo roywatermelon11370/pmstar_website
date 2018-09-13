@@ -35,6 +35,7 @@ app.use(cookieParser());
 app.use(helmet());
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use('/upload', express.static(path.join(__dirname, 'uploads')));
+app.use('/images', express.static(path.join(__dirname, 'assets/images')));
 app.use('/ckeditor', express.static(path.join(__dirname, 'assets/ckeditor')));
 
 

@@ -2,8 +2,6 @@ var express = require('express');
 var router = express.Router();
 var reCAPTCHA = require('../models/reCAPTCHA');
 var announce = require('../models/announce');
-var banner = require('../models/banner');
-var imagesU = require('../models/images');
 var jsSHA = require('jssha');
 var moment = require('moment');
 var path = require('path');
@@ -39,6 +37,7 @@ router.post('/ann/upload', upload.single('upload'), function(req, res, next) {
         "url": url.resolve('/upload/', req.body.link)
     });
 });
+
 router.post('/ann/new', upload.single('attachment'), function(req, res, next) {
     if (!req.session.isLogin) return res.redirect("/admin");
     var newAnn = new announce({
@@ -53,13 +52,18 @@ router.post('/ann/new', upload.single('attachment'), function(req, res, next) {
         else res.send('Success');
     });
 });
+
 router.post('/ann/remove', function(req, res, next) {
     if (!req.session.isLogin) return res.redirect("/admin");
     if (!req.body.id)
         return res.status(500).send('No Legal Data');
     announce.findOne({ _id: req.body.id }, function(err, anns) {
-        if (anns.attachment && anns.attachment != '') {
-            fs.unlinkSync(path.join('./uploads', anns.attachment));
+        try {
+            if (anns.attachment && anns.attachment != '') {
+                fs.unlinkSync(path.join('./uploads', anns.attachment));
+            } 
+        } catch (error) {
+            console.log(error);
         }
     });
     announce.remove({ _id: req.body.id }, function(err) {
@@ -67,6 +71,7 @@ router.post('/ann/remove', function(req, res, next) {
         else res.send('Success');
     });
 });
+
 router.post('/ann/update', upload.single('attachment'), function(req, res, next) {
     if (!req.session.isLogin) return res.redirect("/admin");
     if (!req.body.id) return res.status(500).send('No Legal Data');
@@ -98,13 +103,14 @@ router.post('/ann/update', upload.single('attachment'), function(req, res, next)
     }
 
 });
+
 router.post('/login', reCAPTCHA, function(req, res, next) {
     if (req.session.loginFailed > 15) {
         return res.redirect("/");
     }
     var hash = new jsSHA("SHA3-256", "TEXT");
-    hash.update(String(req.body.pwd) + "ILoveKotori<3");
-    if (req.body.pwd && hash.getHash("HEX") === 'be03103692a2499726bcea123167f476668730beaff55fd54021cf22af81e28d') {
+    hash.update(String(req.body.pwd) + "KatoMegumiSaiko><");
+    if (req.body.pwd && hash.getHash("HEX") === '982b75a8afd7d59e2384596ab462a273d25800d8acce88417142ba338f2443d5') {
         req.session.isLogin = true;
         req.session.loginFailed = 0;
     } else {
@@ -124,6 +130,7 @@ router.get('/', function(req, res, next) {
         res.render('admin/login', { errMsg: req.flash().error });
     }
 });
+
 router.get('/edit', function(req, res, next) {
     if (!req.session.isLogin) return res.redirect("/admin");
     announce.
@@ -133,11 +140,13 @@ router.get('/edit', function(req, res, next) {
         res.render('admin/editann', { announce: anns, moment: moment });
     });
 });
+
 router.get('/new', function(req, res, next) {
     if (!req.session.isLogin) return res.redirect("/admin");
     res.render('admin/newann', { moment: moment });
 
 });
+
 router.get('/logout', function(req, res, next) {
     req.session.isLogin = false;
     res.redirect("/admin");

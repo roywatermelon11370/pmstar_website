@@ -1,95 +1,47 @@
 <!DOCTYPE HTML>
 <!--
-    Arcana by HTML5 UP
+    Spectral by HTML5 UP
     html5up.net | @ajlkn
     Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
     <head>
-        <title>首頁</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-        <link rel="stylesheet" href="assets/css/main.css" />
-        <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
-        <!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+        <%- include('head'); %>
     </head>
-    <body>
+    <body class="landing is-preload">
+        <!-- Page Wrapper -->
         <div id="page-wrapper">
-
             <!-- Header -->
-            <div id="header">
+            <%- include('header'); %>
 
-                <!-- Logo -->
-                <h1><a href="/" id="logo">流音之星</a></h1>
-
-                <!-- Nav -->
-                <nav id="nav">
-                    <ul>
-                        <li class="current"><a href="/">首頁</a></li>
-                        <li><a href="/news">最新資訊</a></li>
-                        <li>
-                            <a href="/about">關於我們</a>
-                            <ul>
-                                <li><a href="/about#1">負責人的電話</a></li>
-                                <li><a href="/about#3">流音之星的歷史</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="/rule">比賽簡章</a></li>
-                        <li><a href="/qna">常見問題</a></li>
-                        <li><a href="/coOrg">協辦單位</a></li>
-                        <li><a href="/sponsor">贊助</a></li>
-                    </ul>
-                </nav>
-
-            </div>
-
-
-            <section id="banner" style="height:32em">
-
-                <div class="slider_container">
-						<div style="background-image:url('assets/images/3.jpg')" class="yee"></div>
-						<div style="background-image:url('assets/images/1.jpg')" class="yee"></div>
-						<div style="background-image:url('assets/images/2.jpg')" class="yee"></div>
+            <!-- Banner -->
+            <section id="banner">
+                <div class="static background" style="background-image:url('/images/astro.png')"></div>
+                <div class="inner">
+                    <h2>
+                        第14屆<br>
+                        流音之星<br>
+                        <span>全國高中職歌唱暨創作大賽</span>
+                    </h2>
+                    <h1>&nbsp;</h1>
                 </div>
-
-                <header>
-                    <h2>流音之星</h2>
-                </header>
-
+                <a href="#footer" class="more scrolly">Learn More</a>
             </section>
 
             <!-- Footer -->
-            <div id="footer">
-
-                <!-- Icons -->
-                <ul class="icons">
-                    <li><a href="https://www.facebook.com/popmusicstar/" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-                </ul>
-
-                <!-- Copyright -->
-                <div class="copyright">
-                    <ul class="menu">
-                        <li><a href="https://www.facebook.com/%E5%BB%BA%E5%9C%8B%E4%B8%AD%E5%AD%B8%E6%B5%81%E8%A1%8C%E9%9F%B3%E6%A8%82%E7%A4%BE21st-1198700360256495/" target="view_window">CKPM</a></li>
-                        <li><a href="https://www.facebook.com/tfgpm16/" target="view_window">TFGPM</a></li>
-                        <li><a href="https://www.facebook.com/legendary.sspm27th/" target="view_window">SSPM</a></li>
-                        <li><a href="https://www.facebook.com/JMPM11th/" target="view_window">JMPM</a></li>
-                        <li><a href="https://www.facebook.com/hjpm14th/" target="view_window">HJPM</a></li>
-                        <li>Design: <a href="http://infor.org" target="view_window">INFOR</a></li>
-                    </ul>
-                </div>
-
-            </div>
-
+            <%- include('footer'); %>
         </div>
 
         <!-- Scripts -->
-        <script src="assets/javascripts/jquery.min.js"></script>
-        <script src="assets/javascripts/jquery.dropotron.min.js"></script>
-        <script src="assets/javascripts/skel.min.js"></script>
-        <script src="assets/javascripts/util.js"></script>
-        <!--[if lte IE 8]><script src="assets/javascripts/ie/respond.min.js"></script><![endif]-->
-        <script src="assets/javascripts/main.js"></script>
-
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/jquery.scrollex.min.js"></script>
+        <script src="assets/js/jquery.scrolly.min.js"></script>
+        <script src="assets/js/browser.min.js"></script>
+        <script src="assets/js/breakpoints.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/main.js"></script>
+        <script>
+            $('#header').addClass('alt');
+        </script>
     </body>
 </html>
