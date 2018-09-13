@@ -10,6 +10,8 @@
 ```bash
 git clone https://github.com/t510599/pmstar_website.git
 
+cd pmstar_website
+
 npm install
 
 mkdir upload
