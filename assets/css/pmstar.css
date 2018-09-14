@@ -97,7 +97,7 @@ div.static.background {
 
 @media screen and (max-width: 736px) {
     #banner {
-        height: 60vh;
+        height: 80vh;
     }
 
     #banner br {
@@ -107,5 +107,13 @@ div.static.background {
     div.static.background {
         background-position: calc(50% + 6px) center;
         background-size: cover;
+    }
+
+    #coOrg .row .col-4 {
+        width: 100%;
+    }
+
+    #contact .row .col-6 {
+        width: 100%;
     }
 }
